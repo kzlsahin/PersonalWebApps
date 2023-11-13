@@ -1,0 +1,1 @@
+﻿Select * From Select From dbo.UserToTrackItems Where UserId='senturk.device1@gmail.com';

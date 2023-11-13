@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "Anasayfa";
+    InfoCardModel card1 = new InfoCardModel()
+            {
+                Title = "Belgelerini takip etmek yerine bırak belgeler seni takip etsin.",
+                Description = "Vadeli evraklarının son tarihleri yaklaşırken e-posta kutuna hatırlatıcılar gelsin.",
+                ImageUrl = "/assets/TrackerBsite.png",
+                Link = "/Tracker/TrackerHome"
+            };
+
+    InfoCardModel card2 = new InfoCardModel()
+            {
+                Title = "Rapor Editörü",
+                Description = "Resim ekleyin, hiyerarşik konu başlıkları oluşturun ve otamatik bir içerik tablosu eklerek PDF çıktısı oluşturun.",
+                ImageUrl = "/assets/ReportEditor.png",
+                Link = "/ReportEditor/Editor",
+            };
+
+    InfoCardModel card3 = new InfoCardModel()
+            {
+                Title = "Dosya Şifreleyici",
+                Description = "Dosyalarınızı kendiniz şifreleyin ve bulut depolama araçlarıyla güvenle depolayın.",
+                ImageUrl = "/assets/FileEncrypter.png",
+                Link = "https://kzlsahin.bsite.net",
+            };
+
+}
+
+
+<h1 class="display-4">Kişisel Web Siteme Hoşgeldiniz!</h1>
+<br />
+<br />
+<div class="showcase-info-cards">
+    @await Html.PartialAsync("_InfoCard", card1)
+    @await Html.PartialAsync("_InfoCard", card2)
+    @await Html.PartialAsync("_InfoCard", card3)
+</div>
+

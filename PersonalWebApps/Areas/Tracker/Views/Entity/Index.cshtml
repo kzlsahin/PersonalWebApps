@@ -1,0 +1,74 @@
+﻿@model TrackItemCreateModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+
+    // Convert List<Category> to IEnumerable<SelectListItem>
+    var CategoriesList = Model.Categories.Select(c => new SelectListItem
+            {
+                Value = c.ID.ToString(), // Replace with the actual property representing the value
+                Text = c.Name // Replace with the actual property representing the text
+            });
+}
+
+<style>
+    .form-group {
+        margin:0.5em;
+    }
+</style>
+
+<form asp-action=@(ViewBag.Action) asp-controller="Entity" method="post">
+    <div class="form-group" style="visibility:hidden;">
+        <label asp-for="ID"></label>
+        <input asp-for="ID" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="ItemName">Kayıt İsmi</label>
+        <input asp-for="ItemName" class="form-control" />
+        <span asp-validation-for="ItemName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Title">Başlık</label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Subject">Konu</label>
+        <input asp-for="Subject" class="form-control" />
+        <span asp-validation-for="Subject" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="IssueDate">Düzenlenme Tarihi</label>
+        <input asp-for="IssueDate" type="date" class="form-control" />
+        <span asp-validation-for="IssueDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ExpiryDate">Son Geçerlilik Tarihi</label>
+        <input asp-for="ExpiryDate" type="date" class="form-control" />
+        <span asp-validation-for="ExpiryDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CategoryId">Kategori</label>
+        <select asp-for="CategoryId" asp-items="CategoriesList" class="form-control">
+            <option value="">Select a Category</option>
+        </select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Gönder</button>
+</form>
+
+@if (ViewBag.Action == "Edit")
+{
+    <br />
+    <br />
+    <a href="/Entity/Delete?ID=@(Model.ID)">Bu kaydı sil</a>
+}
+
+

@@ -1,0 +1,69 @@
+html {
+  font-size: 14px;
+  font-family : 'Segoe UI';
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+header {
+    padding-bottom: 2em;
+}
+body {
+  margin-bottom: 60px;
+}
+
+.showcase-info-cards {
+    width: 100%;
+    display: flex;
+    flex-flow : row wrap;
+    align-content : start;
+    justify-content : center;
+}
+
+.info-card {
+    margin: 2em;
+    padding: 0.5ch;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    width: 40ch;
+    height: 30em;
+    overflow-y:scroll;
+    border: solid 1px gray;
+    box-shadow: gray 2px 2px;
+    transition: all 1s;
+}
+    .info-card:hover {
+        cursor: pointer;
+        box-shadow: gray 20px 20px;
+    }
+    .info-card h1 {
+        color: darkblue;
+        font-size: 18pt;
+        font-weight : bold;
+        width: 90%;
+        text-align: center;
+    }
+
+    .info-card p {
+        font-size: 14pt;
+        width: 90%;
+    }
+
+    .info-card img {
+        width: 70%;
+    }

@@ -1,0 +1,198 @@
+﻿@using tracker_webapp.Repository;
+@model ScreenModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Tracker Screen";
+}
+<style>
+    body{
+    --background-color : #DFFDFF;
+    --border-color : #BBBBBB;
+    font-family : 'monospace';
+    background-color : var(--background-color);
+    }
+    table {
+        width: 100%;
+    }
+    td {
+        border: 1px solid Black;
+    }
+
+
+
+    .group-detail{
+        --background-color : #FFFFFF;
+        --color-warning : #FF7050;
+        --color-alert : #DD2030;
+        --color-valid : #30FF10;
+        margin-Top : 2em;
+    }
+
+    .group-detail tbody, thead {
+         background-color : var(--background-color);
+    }
+
+    .group-detail tr {
+         cursor : pointer;
+         margin-top:0.2em;
+         margin-bottom:0.2em;
+         width: 100%;
+         overflow: scroll;
+         -webkit-overflow-scrolling :auto;
+    }
+    .group-detail td{
+        min-width:10ch;
+    }
+
+    .validity-@ValidityStatus.Close.ToString() {
+        text-align:center;
+        font-weight : Bold;
+        color : #FFFFFF;
+        Background-color : var(--color-warning);
+    }
+
+    .validity-@ValidityStatus.Valid.ToString() {
+        text-align:center;
+        font-weight : Bold;
+        color : #000000;
+        Background-color : var(--color-valid);
+    }
+
+    .validity-@ValidityStatus.Expired.ToString() {
+        text-align:center;
+        font-weight : Bold;
+        color : #FFFFFF;
+        Background-color : var(--color-alert);
+    }
+    .category-summary {
+        padding : 0.2em;
+        font-size : 14pt;
+        font-weight : bold;
+        Color : darkblue;
+        background-color : var(--background-color);
+        border: 2px solid Gray;
+        border-radius : 0.2em;
+    }
+
+    .warning  {
+        animation: blink-warning 2s infinite;
+        -webkit-animation: blink-warning 2s infinite;
+    }
+
+    @@keyframes blink-alert {
+        0% {
+            border-color : var(--border-color);
+            }
+        50% {
+            border-color : var(--color-alert);
+            }
+        100% {
+            border-color : var(--border-color);
+            }
+    }
+    @@-webkit-keyframes blink-alert{
+        0% {
+            border-color : var(--border-color);
+        }
+        50% {
+            border-color : var(--color-alert);
+            }
+        100% {
+            border-color : var(--border-color);
+            }
+    }
+    @@keyframes blink-warning {
+        0% {
+            border-color : var(--border-color);
+            }
+        50% {
+            border-color : var(--color-warning);
+            }
+        100% {
+            border-color : var(--border-color);
+            }
+    }
+    @@-webkit-keyframes blink-warning{
+        0% {
+            border-color : var(--background-color);
+            }
+        50% {
+            border-color : var(--color-warning);
+            }
+        100% {
+            border-color : var(--border-color);
+            }
+    }
+
+    @@media only screen and (max-width: 992px){
+        .td-subject {
+            display : none;
+        }
+    }
+</style>
+<h1>Tracker Screen</h1>
+
+
+@{
+    HashSet<string> cautionCategories = new();
+
+    foreach(var Category in Model.TrackItems)
+    {                
+        List<TrackItemRowModel> rowModels = new();
+        bool warnUser = false;
+        foreach(TrackItem item in Category)
+        {
+            var rowModel = new TrackItemRowModel(item, Model.GetValiditySatus);
+            if ( rowModel.Status != ValidityStatus.Valid)
+            {
+                warnUser = true;
+            }
+            rowModels.Add(rowModel);
+        }
+    <details class="group-detail">
+                        <summary class="category-summary @(warnUser ? "warning" : "")">
+                            @Category.Key.Name
+                        </summary>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Title</th>
+                                    <th class="td-subject">Subject</th>
+                                    <th>Issue Date</th>
+                                    <th>Expiry Date</th>
+                                    <th>Satus</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach(var row in rowModels)
+                    {
+                                    <partial name="_TrackItemRowView" model="row"/>
+                    }
+                            </tbody>
+                        </table>
+                            
+    </details> 
+    }
+}
+<br />
+<br />
+<a asp-controller="Entity" asp-action="Index">Add new item</a>
+
+<script>
+    
+    window.addEventListener("load", function () {
+        let trackItems = document.getElementsByClassName("track-item-row");
+        for (let row of trackItems) {
+            row.addEventListener("click", function (event) { OnTrackItemClick(event); });
+        }    
+    });
+
+    const OnTrackItemClick = (event) => {
+        let target = event.currentTarget;
+        let itemID = target.getAttribute("data-item-id");
+        window.location.href = `/Entity/Index?itemID=${itemID}`;
+    }
+</script>
