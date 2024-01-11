@@ -32,7 +32,7 @@ builder.Services
 
 builder.Services.AddTransient<IEmailSender, EmailSender>(
     (smtpClient) =>
-    new EmailSender("smtp.gmail.com", 587, new MailAddress("senturkmus@gmail.com"), new NetworkCredential("senturkmus@gmail.com", "pjupnwbonpgugsjv"), true)
+    new EmailSender("smtp.gmail.com", 587, new MailAddress("senturkmus@gmail.com"), new NetworkCredential("senturkmus@gmail.com", "hipqtjrldofzqwll"), true)
     );
 
 builder.Services.AddControllersWithViews();

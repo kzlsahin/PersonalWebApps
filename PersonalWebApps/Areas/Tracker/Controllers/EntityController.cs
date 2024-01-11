@@ -18,8 +18,7 @@ namespace Areas.Tracker.Controllers
             _dbContext = dbContext;
         }
 
-        [HttpGet]
-        public ActionResult Index(int itemID)
+        public ActionResult Index(int itemID=-1)
         {
             var model = new TrackItemCreateModel();
             var userName = User.Identity?.Name ?? "";
@@ -73,7 +72,7 @@ namespace Areas.Tracker.Controllers
                 _dbContext.TrackItems.Add(item);
                 _dbContext.UserToTrackItems.Add(new UserToTrackItem() { UserId = User.Identity?.Name ?? "", TrackItem = item });
                 _dbContext.SaveChanges();
-                return Redirect("/Screen");
+                return Redirect("/Tracker/Screen");
             }
             catch (Exception ex)
             {
@@ -110,7 +109,7 @@ namespace Areas.Tracker.Controllers
                     item.IsActive = true;
                     _dbContext.SaveChanges();
                 }
-                return Redirect("/Screen");
+                return Redirect("/Tracker/Screen");
             }
             catch (Exception ex)
             {
@@ -134,7 +133,7 @@ namespace Areas.Tracker.Controllers
                     item.IsActive = false;
                     _dbContext.SaveChanges();
                 }
-                return Results.Redirect("/Screen");
+                return Results.Redirect("/Tracker/Screen");
             }
             catch (Exception ex)
             {
@@ -162,7 +161,7 @@ namespace Areas.Tracker.Controllers
         private ActionResult IndexView(TrackItemCreateModel formItem)
         {
             formItem.Categories = GetCategories();
-            return View("~/Views/Entity/Index.cshtml", formItem);
+            return View("~/Areas/Tracker/Views/Entity/Index.cshtml", formItem);
         }
     }
 }
